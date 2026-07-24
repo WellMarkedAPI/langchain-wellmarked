@@ -1,6 +1,6 @@
 # langchain-wellmarked
 
-The official [LangChain](https://www.langchain.com/) integration for **[WellMarked](https://wellmarked.io)** — load any URL as clean Markdown `Document`s.
+The official [LangChain](https://www.langchain.com/) integration for **[WellMarked](https://wellmarked.io)** — load any URL as clean Markdown `Document`s, or retrieve them straight from a web search.
 
 ```bash
 pip install langchain-wellmarked
@@ -49,6 +49,28 @@ docs[0].metadata["depth"]   # how far from the root URL this page sits
 | `job_timeout` | `300.0`     | Seconds to wait for a crawl job; `None` waits forever               |
 
 In `crawl` mode, pages that fail to extract (timeouts, robots-disallowed, no content) are skipped; only successful pages become `Document`s.
+
+## Retriever
+
+`WellMarkedRetriever` is the natural surface for RAG chains where the context should come from the live web: each retrieval searches the web, extracts the top results to clean Markdown, and returns them as `Document`s — search and extraction in one round trip, no URLs to wrangle. Search requires a Pro plan or above.
+
+```python
+from langchain_wellmarked import WellMarkedRetriever
+
+retriever = WellMarkedRetriever(num_results=5)
+docs = retriever.invoke("best open-source vector databases")
+
+docs[0].page_content   # clean Markdown of a result page
+docs[0].metadata       # {"source": ..., "title": ..., "snippet": ...}
+```
+
+| Parameter     | Default   | Description                                                    |
+|---------------|-----------|----------------------------------------------------------------|
+| `api_key`     | env var   | WellMarked API key; falls back to `WELLMARKED_API_KEY`         |
+| `num_results` | `5`       | How many results to fetch + extract (clamped to 1..10)        |
+| `render_js`   | `False`   | Render JS-heavy result pages with a headless browser (Pro and above) |
+
+Only successfully extracted results become `Document`s; a result whose page timed out or was blocked is skipped.
 
 ## Related
 
