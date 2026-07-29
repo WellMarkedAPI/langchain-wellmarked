@@ -67,7 +67,7 @@ docs[0].metadata       # {"source": ..., "title": ..., "snippet": ...}
 | Parameter     | Default   | Description                                                    |
 |---------------|-----------|----------------------------------------------------------------|
 | `api_key`     | env var   | WellMarked API key; falls back to `WELLMARKED_API_KEY`         |
-| `num_results` | `5`       | How many results to fetch + extract (clamped to 1..10)        |
+| `num_results` | `5`       | How many results to fetch + extract (capped by plan: Free 5 · Pro 10 · Growth 50 · Enterprise uncapped) |
 | `render_js`   | `False`   | Render JS-heavy result pages with a headless browser (Pro and above) |
 
 Only successfully extracted results become `Document`s; a result whose page timed out or was blocked is skipped.
