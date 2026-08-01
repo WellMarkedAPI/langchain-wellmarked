@@ -75,5 +75,6 @@ Only successfully extracted results become `Document`s; a result whose page time
 ## Related
 
 - [`wellmarked`](https://pypi.org/project/wellmarked/) — the underlying Python SDK (this package wraps it)
+- [LangChain integration docs](https://wellmarked.io/docs/sdks/langchain) — this package, on the WellMarked docs site
 - [WellMarked API docs](https://wellmarked.io/docs)
 - [`llama-index-readers-wellmarked`](https://github.com/WellMarkedAPI/llama-index-readers-wellmarked) — the LlamaIndex equivalent
